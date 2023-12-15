@@ -1,10 +1,8 @@
-package array_1D.bronze2.basketElementExchage_10811;
+package array_1D.bronze2.basketSubsetArrayReversed_10811;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class ReferenceOtherCode {
@@ -35,7 +33,7 @@ public class ReferenceOtherCode {
             int tempNum;
 
             // 같으면 변동 없으므로 제외
-            if(start != end) {
+            if(start != end) { // 숫자 백업하고 계속 바꿈
                 for(int i=start; i<=end; i++) {
                     tempNum = arr[i];
                     arr[i] = arr[end];

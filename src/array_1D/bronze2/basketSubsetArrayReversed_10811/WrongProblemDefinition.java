@@ -1,4 +1,4 @@
-package array_1D.bronze2.basketElementExchage_10811;
+package array_1D.bronze2.basketSubsetArrayReversed_10811;
 
 import java.io.BufferedReader;
 import java.io.IOException;
