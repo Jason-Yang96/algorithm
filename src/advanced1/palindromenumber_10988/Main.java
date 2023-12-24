@@ -9,6 +9,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String inputString = br.readLine();
         Main.compareString(inputString);
+        br.close();
     }
 
     public static void compareString(String string) {
@@ -21,7 +22,6 @@ public class Main {
                 isPalindrome = false;
                 break;
             }
-
         System.out.println(isPalindrome? 1 : 0);
     }
 }
