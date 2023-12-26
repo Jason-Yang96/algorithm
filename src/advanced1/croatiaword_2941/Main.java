@@ -3,6 +3,7 @@ package advanced1.croatiaword_2941;
 import java.io.*;
 
 public class Main {
+    private static int output;
     public static void main(String[] args) throws IOException {
         //given
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,6 +18,10 @@ public class Main {
             replacedCroatianWord = replacedCroatianWord.replace(s, ".");
         }
         //then(print)
-        System.out.println(replacedCroatianWord.length());
+        output = replacedCroatianWord.length();
+        System.out.println(output);
+    }
+    public static int getOutput() {
+        return output;
     }
 }
