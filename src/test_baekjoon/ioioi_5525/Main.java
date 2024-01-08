@@ -25,6 +25,13 @@ public class Main {
         br.close();
         System.out.println(count);
     }
+
+
+
+    /*일단 특정 패턴인 것을 골라낸다.
+    * 그런 다음에 0의 개수 혹은 1의 개수를 통해서 개수를 골라낸다
+    * */
 }
+
 
 
