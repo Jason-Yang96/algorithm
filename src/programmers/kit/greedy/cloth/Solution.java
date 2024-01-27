@@ -1,5 +1,6 @@
 package programmers.kit.greedy.cloth;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solution {
     public static void main(String[] args) {
@@ -14,46 +15,103 @@ public class Solution {
         System.out.println("answer = " + answer);;
         System.out.println(resultValue == answer);
     }
+
     public static int solution(int n, int[] lost, int[] reserve) {
-        int answer = 0;
-        int nWithoutLost = n - lost.length;
-        // 발생한 문제 : 원시 타입의 정수 배열로 리스트를 만들 수 없다. (참조 자료형 제네릭)
-        Integer[] integerReserve = new Integer[reserve.length];
+        List<Integer> lostList = Arrays.stream(lost)
+                .boxed()
+                .collect(Collectors.toList());
+        List<Integer> reserveNotStolen = new ArrayList<>(); // 체육복 도둑질 안 당한, 여분 있는 친구
 
-        for (int i = 0; i < reserve.length; i++) {
-            integerReserve[i] = Integer.valueOf(reserve[i]);
+        for (int r : reserve){
+            if(lostList.contains(r)) continue;
+            reserveNotStolen.add(r);
         }
-        List<Integer> reserveList = new ArrayList<>(Arrays.asList(integerReserve));
 
-        for(int l : lost){
-            if (l == 1) {
-                if(reserveList.contains(l+1)){
-                    int reserveIndex = reserveList.indexOf(l+1);
-                    reserveList.set(reserveIndex, 0);
-                    nWithoutLost++;
-                }
-            } else if(l == n) {
-                if(reserveList.contains(l-1)){
-                    int reserveIndex = reserveList.indexOf(l-1);
-                    reserveList.set(reserveIndex, 0);
-                    nWithoutLost++;
-                }
-            } else { 
-                if(reserveList.contains(l-1)){
-                    int reserveIndex = reserveList.indexOf(l-1);
-                    reserveList.set(reserveIndex, 0);
-                    nWithoutLost++;           
-                } else if(reserveList.contains(l+1)){
-                    int reserveIndex = reserveList.indexOf(l+1);
-                    reserveList.set(reserveIndex, 0);
-                    nWithoutLost++;
+        int[] students = new int[n]; // []
+        int count = 0;
+
+//        Collections.sort(lostList);
+//        Collections.sort(reserveNotStolen);
+
+
+        Arrays.fill(students, 1);
+        for (int l : lostList) students[l-1] = 0;
+        for (int i : reserveNotStolen) {
+            if (i == 1) {
+                if(students[i]==0) students[i] = 1;
+            } else if (i == n) {
+                students[i - 2] = 1;
+            } else {
+                if (students[i - 2] == 0 | students[i] == 0) {
+                    if (students[i - 2] == 0) {
+                        students[i - 2] = 1;
+                    } else {
+                        students[i] = 0;
+                    }
                 }
             }
         }
-        answer = nWithoutLost;
+        for (int student : students)  if(student == 1) count++;
+        return count;
+    }
+    public static int solution_wrong(int n, int[] lost, int[] reserve) {
+        int answer = n;
+//        int nWithoutLost = n - lost.length; // 참가 가능.
+        // 발생한 문제 : 원시 타입의 정수 배열로 리스트를 만들 수 없다. (참조 자료형 제네릭)
+        Integer[] students = new Integer[n];
+
+        for (Integer l : lost) {
+            students[l-1]--;
+        }
+        for (Integer r : reserve) {
+            students[r-1]++;
+        }
+        // [0,0,0,0,0] => [0,-1,0,-1,0] => [1, -1, 1, -1, 1]
+        // 여벌을 가져왔는데, 잃어버려서, 다른 친구들에게 주지 못하는 친구를 계속 생각해야 함.
+        // 상황을 이분할 한다.
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] == -1) {
+                if (i - 1 >= 0 && students[i - 1] == 1) { // 0 요소를 둔다. 아예 기준을 잡아야 한다. 깔.
+                    students[i]++;
+                    students[i - 1]--;
+                } else if (i + 1 < students.length && students[i+1]==1) {
+                    students[i]++;
+                    students[i+1]--;
+                } else {
+                    answer--;
+                }
+            }
+        }
         return answer;
     }
 }
+//        for(int l : lost){
+//            if (l == 1) {
+//                if(reserveList.contains(l+1)){
+//                    int reserveIndex = reserveList.indexOf(l+1);
+//                    reserveList.set(reserveIndex, 0);
+//                    answer++;
+//                }
+//            } else if(l == n) {
+//                if(reserveList.contains(l-1)){
+//                    int reserveIndex = reserveList.indexOf(l-1);
+//                    reserveList.set(reserveIndex, 0);
+//                    answer++;
+//                }
+//            } else {
+//                if(reserveList.contains(l-1)){
+//                    int reserveIndex = reserveList.indexOf(l-1);
+//                    reserveList.set(reserveIndex, 0);
+//                    answer++;
+//                } else if(reserveList.contains(l+1)){
+//                    int reserveIndex = reserveList.indexOf(l+1);
+//                    reserveList.set(reserveIndex, 0);
+//                    answer++;
+//                } else {
+//                    answer--;
+//                }
+//            }
+//        }
 /*
 *******첫인상
 일단은 전체 학생 수는 n이라고 생각.
@@ -79,4 +137,5 @@ public class Solution {
 - 반복되는 구문이 너무 많음.
 - 전혀 그리디스럽지 못함.
 - 추가적으로 그냥 틀림
+- 풀이에 있어 추가적으로 생각해야 할 것: 여벌이 있는 학생도 도난 당할 수 있음. 정렬되어 있지 않음. 
 */
