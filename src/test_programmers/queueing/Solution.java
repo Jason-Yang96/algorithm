@@ -35,12 +35,7 @@ public class Solution {
         return answer;
     }
 
-    public static int[] solutionRuntimeError(int n, int k) {
-
-    }
-
     public static long createFactorialLong(int n) {
-        long returnValue = n;
         if (n == 0 || n == 1) {
             return 1;
         } else {
