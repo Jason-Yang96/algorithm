@@ -1,7 +1,27 @@
+import java.util.*;
 class Solution {
-    public int solution(int[] numbers, int target) {
+    public int solution(int[] nums, int target) {
         int answer = 0;
+
+        Map<Integer, Integer> targetCountHM = new HashMap<>();
+
+        calculate(nums, 0, 0, Map<Integer, Integer> targetCountHM);
+
         return answer;
+
+    }
+
+    private void calculate(int[] nums, int index, int currentSum, Map<Integer, Integer> HM) {
+        if (index == nums.length) {
+            results.add(currentSum);
+            return;
+        }
+
+        // Add the current number
+        calculate(nums, index + 1, currentSum + nums[index], results);
+
+        // Subtract the current number
+        calculate(nums, index + 1, currentSum - nums[index], results);
     }
 }
 
@@ -31,9 +51,46 @@ class Solution {
 해시맵에 넣어줄 때, 이미 존재하는 키값을 넣을 때 그 키를 가져와서 카운트를 올려준 뒤에 덮어쓴다. 
 연산이 마무리 되면, 해시맵에서 키값을 통해 카운트 값을 가져온다. 
 ------구현
+1. hash map 만들기
+
+2. 어떻게 모든 숫자들을 다 계산하는 경우의 수를 구하는가? 
+
 가장 작은 값은 다 마이너스
+- stream으로 만든 뒤에 filter 씌우고 맵에 넣음
 가장 큰 값은 다 플러스 
+- stream으로 만든 뒤에 다 더한 값을 그대로 해시맵에 넣음
+- 재귀를 사용해서 값을 계속 넣어준다. 
+
+
+3. 어떻게 해시맵에 다 넣어 주는가? 
+- 
+
+4. 해시맵에서 특정 키를 가진 값을 정답에 할당해주기
 
 ------테스트
 ------리뷰
+*/
+
+/*
+
+public class Main {
+    public static List<Integer> calculateValues(int[] nums) {
+        List<Integer> results = new ArrayList<>();
+        calculate(nums, 0, 0, results);
+        return results;
+    }
+
+    private static void calculate(int[] nums, int index, int currentSum, List<Integer> results) {
+        if (index == nums.length) {
+            results.add(currentSum);
+            return;
+        }
+
+        // Add the current number
+        calculate(nums, index + 1, currentSum + nums[index], results);
+
+        // Subtract the current number
+        calculate(nums, index + 1, currentSum - nums[index], results);
+    }
+}
 */
