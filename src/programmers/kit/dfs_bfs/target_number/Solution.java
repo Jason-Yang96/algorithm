@@ -1,29 +1,46 @@
+package programmers.kit.dfs_bfs.target_number;
+
+
 import java.util.*;
 class Solution {
+    public static void main(String[] args) {
+        test(new int[]{1,1,1,1,1}, 3, 5);
+    }
+    public static void test(int[] nums, int target, int answer) {
+        Solution solution = new Solution();
+        int testOutput = solution.solution(nums, target);
+        System.out.printf("answer: %d | test output: %d%n", answer, testOutput);
+        System.out.printf("test result: %b%n%n", answer == testOutput);
+    }
     public int solution(int[] nums, int target) {
         int answer = 0;
 
         Map<Integer, Integer> targetCountHM = new HashMap<>();
 
-        calculate(nums, 0, 0, Map<Integer, Integer> targetCountHM);
+        calculate(nums, 0, 0, targetCountHM);
 
         return answer;
 
     }
 
-    private void calculate(int[] nums, int index, int currentSum, Map<Integer, Integer> HM) {
+    private void calculate(int[] nums, int currentSum, int index, Map<Integer, Integer> HM) {
         if (index == nums.length) {
-            results.add(currentSum);
+            HM.put(currentSum, HM.getOrDefault(currentSum, 0) + 1);
             return;
         }
 
         // Add the current number
-        calculate(nums, index + 1, currentSum + nums[index], results);
+        calculate(nums, currentSum + nums[index], index + 1, HM);
 
         // Subtract the current number
-        calculate(nums, index + 1, currentSum - nums[index], results);
+        calculate(nums, currentSum - nums[index], index + 1, HM);
     }
 }
+/*
+{1,1,1,1,1}
+
+currentsum = 
+*/ 
 
 
 
